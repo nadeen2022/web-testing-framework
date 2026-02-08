@@ -1,52 +1,41 @@
-name: ULTIMATE_ADVANCED_10000_SURE
+name: ULTIMATE_SUCCESS
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  super_blast:
+  run-bot:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # සර්වර් 15 ක් පාවිච්චි කරමු (පෝලිමේ ඉන්න වෙලාව අඩු කරගන්න)
-        instance: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        node: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
-      - name: Deploy Advanced Engine
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Request Library
+        run: pip install requests aiohttp
+      - name: Execute God Mode
         run: |
           python -c "
-          import aiohttp, asyncio, random, time
-          
-          # ShrinkMe API link එක
-          API = 'https://shrinkme.io/api?api=bf74cbbb2b101b0131e408cb6e8d92be061676bf&url=https://www.google.com/search?q={}'
-
-          async def send_req(session):
-              while True:
-                  # සැබෑ මිනිහෙක් වගේ පේන්න random query එකක් හදයි
-                  target = API.format(random.randint(100000, 999999))
-                  headers = {
-                      'User-Agent': f'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/{random.randint(110,123)}.0.0.0 Safari/537.36',
-                      'Referer': random.choice(['https://t.co', 'https://google.com', 'https://bing.com'])
-                  }
-                  try:
-                      async with session.get(target, headers=headers, timeout=5) as resp:
-                          pass # Request එක සාර්ථකයි
-                  except:
-                      pass
-                  # සර්වර් එකට සැක හිතෙන්නේ නැති වෙන්න ඉතාම කුඩා විවේකයක්
-                  await asyncio.sleep(0.001)
-
-          async def main():
+          import aiohttp, asyncio, random
+          async def attack():
+              url = 'https://shrinkme.io/api?api=bf74cbbb2b101b0131e408cb6e8d92be061676bf&url=https://google.com/{}'
+              headers = {'User-Agent': 'Mozilla/5.0'}
               async with aiohttp.ClientSession() as session:
-                  # එකවර requests 200 ක් පණගන්වයි (Super Speed)
-                  tasks = [send_req(session) for _ in range(200)]
-                  await asyncio.gather(*tasks)
-
+                  while True:
+                      try:
+                          async with session.get(url.format(random.randint(1,999999)), headers=headers, timeout=5) as r:
+                              pass
+                      except:
+                          pass
+          async def main():
+              await asyncio.gather(*[attack() for _ in range(50)])
           if __name__ == '__main__':
-              # Python වල තියෙන වේගවත්ම ක්‍රමය (AsyncIO)
-              import pip
-              pip.main(['install', 'aiohttp'])
               asyncio.run(main())
           "
-          
