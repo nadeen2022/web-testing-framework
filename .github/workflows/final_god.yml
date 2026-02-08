@@ -1,41 +1,31 @@
-name: ULTIMATE_SUCCESS
+name: QUICK_START_GOD_MODE
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
 jobs:
-  run-bot:
+  fast-bot:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        node: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        # සර්වර් 3ක් පමණි - පෝලිමේ ඉන්න වෙලාව නැති කිරීමට
+        id: [1, 2, 3]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install Request Library
-        run: pip install requests aiohttp
-      - name: Execute God Mode
+      - name: Turbo Launch
         run: |
           python -c "
           import aiohttp, asyncio, random
-          async def attack():
-              url = 'https://shrinkme.io/api?api=bf74cbbb2b101b0131e408cb6e8d92be061676bf&url=https://google.com/{}'
-              headers = {'User-Agent': 'Mozilla/5.0'}
-              async with aiohttp.ClientSession() as session:
+          async def blast():
+              u = 'https://shrinkme.io/api?api=bf74cbbb2b101b0131e408cb6e8d92be061676bf&url=https://google.com/{}'
+              async with aiohttp.ClientSession() as s:
                   while True:
                       try:
-                          async with session.get(url.format(random.randint(1,999999)), headers=headers, timeout=5) as r:
+                          async with s.get(u.format(random.randint(1,999999)), timeout=5) as r:
                               pass
-                      except:
-                          pass
+                      except: pass
           async def main():
-              await asyncio.gather(*[attack() for _ in range(50)])
-          if __name__ == '__main__':
-              asyncio.run(main())
+              # එක සර්වර් එකක Requests 200ක් එකවර! (Ultra Fast)
+              await asyncio.gather(*[blast() for _ in range(200)])
+          asyncio.run(main())
           "
